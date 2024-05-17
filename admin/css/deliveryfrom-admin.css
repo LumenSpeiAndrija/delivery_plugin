@@ -1,0 +1,141 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+.deliveryfrom_wc_action{
+    text-indent: 0 !important;
+    text-align: center;
+}
+
+.deliveryfrom_wc_action .dashicons{
+    vertical-align: text-bottom;
+}
+
+.deliveryfrom_services td{
+    vertical-align: middle;
+    text-align: center;
+}
+
+.widefat .column-wc_actions a.button.deliveryfrom_wc_action{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.widefat .column-wc_actions a.button .deliveryfrom_action_icon,
+.deliveryfrom_actions.single-order .deliveryfrom_wc_action .deliveryfrom_action_icon{
+    display: inline-block;
+    width: 90%;
+}
+
+.deliveryfrom_success.blockUI.blockOverlay::before, .deliveryfrom_hide_spinner.blockUI.blockOverlay::before{
+    display: none;
+}
+
+#delivery_tick{
+    stroke: var(--wc-green);
+}
+
+.circ{
+    opacity: 0;
+    stroke-dasharray: 130;
+    stroke-dashoffset: 130;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -ms-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+.tick{
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    -webkit-transition: stroke-dashoffset 1s 0.5s ease-out;
+    -moz-transition: stroke-dashoffset 1s 0.5s ease-out;
+    -ms-transition: stroke-dashoffset 1s 0.5s ease-out;
+    -o-transition: stroke-dashoffset 1s 0.5s ease-out;
+    transition: stroke-dashoffset 1s 0.5s ease-out;
+}
+#delivery_tick.drawn .path{
+    opacity: 1;
+    stroke-dashoffset: 0;
+}
+
+.deliveryfrom_tick_wrap{
+    max-width: 128px;
+}
+
+.deliveryfrom_tick_wrap {
+    width: 128px;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    left: 50%;
+    height: 128px;
+}
+
+.blockUI.deliveryfrom_blockui_message.blockPage {
+    border-width: 2px !important;
+    border-radius: 12px;
+    padding: 16px !important;
+    border-color: var(--wc-red) !important;
+    cursor: inherit !important;
+}
+
+.blockUI.deliveryfrom_blockui_form.blockPage {
+    border-width: 2px !important;
+    border-radius: 12px;
+    padding: 16px !important;
+    border-color: var(--wc-blue) !important;
+    cursor: inherit !important;
+    transform: translateY(-50%);
+    top: 50% !important;
+    max-height: 90%;
+    overflow: auto;
+}
+
+.deliveryfrom_form_label{
+    text-align: left;
+    vertical-align: middle;
+    width: 25%;
+}
+
+#df_form_print table{
+    width: 100%;
+}
+
+.deliveryfrom_form_input, .deliveryfrom_form_input input, .deliveryfrom_form_input select, .deliveryfrom_form_input textarea {
+    width: 100%;
+    text-align: left;
+}
+
+.deliveryfrom_form_input input, .deliveryfrom_form_input select, .deliveryfrom_form_input textarea {
+    max-width: 180px;
+}
+
+.df_form_options{
+    margin-top: 12px;
+    text-align: left;
+}
+
+.deliveryfrom_actions.single-order .deliveryfrom_wc_action {
+    margin: 2px 0 2px 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 !important;
+    height: 2em !important;
+    width: 2em;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.deliveryfrom_country_icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    max-width: 100%;
+    width: auto !important;
+    height: 7px !important;
+}

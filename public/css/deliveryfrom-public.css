@@ -1,0 +1,12 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+#deliveryfrom_map{
+    height: 300px;
+}
+
+#deliveryfrom-pickuppoint_field .optional{
+    display: none;
+}
