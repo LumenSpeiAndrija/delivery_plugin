@@ -107,7 +107,6 @@ class Deliveryfrom_Public {
                 wp_enqueue_script( $this->plugin_name . '_pickup_google_maps', 'https://maps.googleapis.com/maps/api/js?key='.$google_key.'&libraries=&v=weekly&channel=2', array($this->plugin_name . '_pickup_checkout'), null, true);
                 wp_enqueue_script($this->plugin_name . '_pickup_markerclusterer', 'https://unpkg.com/@googlemaps/markerclusterer@2.0.8/dist/index.min.js', array($this->plugin_name . '_pickup_google_maps'), null, true);
             }
-            
 
             $js = 'var deliveryfrompickup = '. json_encode($pickup_methods) . '; var deliveryfromimages = "'. plugins_url('/deliveryfrom/public/images/').'";';
             wp_add_inline_script( $this->plugin_name . '_pickup_checkout', $js, 'before' );

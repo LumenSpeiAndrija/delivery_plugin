@@ -22,7 +22,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Currently plugin version.
  */
-define( 'DELIVERYFROM_VERSION', '1.3.0' );
+define( 'DELIVERYFROM_VERSION', '1.0.0' );
 define( 'DELIVERYFROM_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DELIVERYFROM_URI', plugin_dir_url(__FILE__) );
 

@@ -19,11 +19,12 @@
         </tr>
     </tfoot>
     <tbody id="deliveryfrom_services">
-    <?php if(sizeof($methods) > 0): ?>
+    <?php
+    if(sizeof($methods) > 0): ?>
         <?php foreach($methods as $method): ?>
         <tr>
             <td>
-                <select name="deliveryfrom_services[<?php esc_attr_e($method['ID']); ?>]" data-attribute="deliveryfrom_service" autocomplete="off">
+                <select name="deliveryfrom_services[<?php echo esc_attr($method['ID']); ?>]" data-attribute="deliveryfrom_service" autocomplete="off">
                     <?php foreach($available_services as $service_id => $service_label): ?>
                         <option value="<?php echo esc_attr($service_id); ?>" <?php selected($service_id, $method['service'], true); ?>><?php echo esc_html($service_label); ?></option>
                     <?php endforeach; ?>
@@ -31,7 +32,7 @@
             </td>
 
             <td>
-                <input type="text" value="<?php esc_attr_e($method['name']); ?>" placeholder="*" name="deliveryfrom_services_labels[<?php esc_attr_e($method['ID']); ?>]" data-attribute="deliveryfrom_service" data-id="<?php esc_attr_e($method['ID']); ?>" class="ui-autocomplete-input" autocomplete="off">
+                <input type="text" value="<?php echo esc_attr($method['name']); ?>" placeholder="*" name="deliveryfrom_services_labels[<?php echo esc_attr($method['ID']); ?>]" data-attribute="deliveryfrom_service" data-id="<?php echo esc_attr($method['ID']); ?>" class="ui-autocomplete-input" autocomplete="off">
             </td>
         </tr>
         <?php endforeach; ?>

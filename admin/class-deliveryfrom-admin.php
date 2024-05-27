@@ -299,10 +299,10 @@ class Deliveryfrom_Admin {
                 $style = apply_filters('deliveryfrom_action_print_style_' . $method['service'], array('bg' => '#fff', 'icon' => '', 'color' => '#000', 'country' => ''), $method['ID']);
                 if(class_exists($method['service'])):
                 ?>
-                    <a class="button deliveryfrom_wc_action deliveryfrom_print" style="background-color: <?php esc_attr_e($style['bg']); ?>; border-color: <?php esc_attr_e($style['bg']); ?>;" href="#" title="<?php printf(__('Print using %s', 'deliveryfrom'), esc_attr($method['name'])); ?>" data-order-id="<?php echo esc_attr($order_id); ?>" data-method="<?php echo esc_attr($method['service']); ?>" data-instance="<?php echo esc_attr($method['ID']); ?>">
-                        <img class="deliveryfrom_action_icon" src="<?php esc_attr_e($style['icon']); ?>">
+                    <a class="button deliveryfrom_wc_action deliveryfrom_print" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>;" href="#" title="<?php printf(__('Print using %s', 'deliveryfrom'), esc_attr($method['name'])); ?>" data-order-id="<?php echo esc_attr($order_id); ?>" data-method="<?php echo esc_attr($method['service']); ?>" data-instance="<?php echo esc_attr($method['ID']); ?>">
+                        <img class="deliveryfrom_action_icon" src="<?php echo esc_attr($style['icon']); ?>">
                         <?php if(isset($style['country']) && !empty($style['country'])): ?>
-                            <img class="deliveryfrom_country_icon" src="<?php esc_attr_e(DELIVERYFROM_URI . 'admin/images/' . $style['country'] . '.png'); ?>">
+                            <img class="deliveryfrom_country_icon" src="<?php echo esc_attr(DELIVERYFROM_URI . 'admin/images/' . $style['country'] . '.png'); ?>">
                         <?php endif; ?>
                     </a>
                 <?php
@@ -324,7 +324,7 @@ class Deliveryfrom_Admin {
         $instance = $order->get_meta('_deliveryfrom_instance', true);
         $style = apply_filters('deliveryfrom_action_print_style_' . $service, array('bg' => '#fff', 'icon' => '', 'color' => '#000', 'country' => ''), $instance);
         ?>
-            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php esc_attr_e($style['bg']); ?>; border-color: <?php esc_attr_e($style['bg']); ?>; color: <?php esc_attr_e($style['color']); ?>;" href="<?php echo esc_url(admin_url('post.php?action=deliveryfrom_viewlabel&post=' . $order_id)); ?>" title="<?php _e('Print existing label', 'deliveryfrom'); ?>" data-order-id="<?php echo esc_attr($order_id); ?>">
+            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url(admin_url('post.php?action=deliveryfrom_viewlabel&post=' . $order_id)); ?>" title="<?php _e('Print existing label', 'deliveryfrom'); ?>" data-order-id="<?php echo esc_attr($order_id); ?>">
                 <span class="dashicons dashicons-printer"></span>
             </a>
 
@@ -332,11 +332,11 @@ class Deliveryfrom_Admin {
             $tracking_link = apply_filters('deliveryfrom_tracking_url_' . $service, false, $order_id, $instance);
             if($tracking_link):
             ?>
-            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php esc_attr_e($style['bg']); ?>; border-color: <?php esc_attr_e($style['bg']); ?>; color: <?php esc_attr_e($style['color']); ?>;" href="<?php echo esc_url($tracking_link); ?>" title="<?php _e('Open tracking link', 'deliveryfrom'); ?>">
+            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url($tracking_link); ?>" title="<?php _e('Open tracking link', 'deliveryfrom'); ?>">
                 <span class="dashicons dashicons-location-alt"></span>
             </a>
             <?php endif; ?>
-            <a class="button deliveryfrom_wc_action deliveryfrom_cancel_label" style="background-color: <?php esc_attr_e($style['bg']); ?>; border-color: <?php esc_attr_e($style['bg']); ?>; color: <?php esc_attr_e($style['color']); ?>;" href="#" title="<?php _e('Cancel label', 'deliveryfrom'); ?>" data-order-id="<?php echo esc_attr($order_id); ?>">
+            <a class="button deliveryfrom_wc_action deliveryfrom_cancel_label" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="#" title="<?php _e('Cancel label', 'deliveryfrom'); ?>" data-order-id="<?php echo esc_attr($order_id); ?>">
                 <span class="dashicons dashicons-no"></span>
             </a>
         <?php
@@ -349,10 +349,10 @@ class Deliveryfrom_Admin {
         foreach($methods as $method):
             $style = apply_filters('deliveryfrom_action_print_style_' . $method['service'], array('bg' => '#fff', 'icon' => '', 'color' => '#000', 'country' => ''), $method['ID']);
         ?>
-            <a class="button deliveryfrom_wc_action deliveryfrom_print" style="background-color: <?php esc_attr_e($style['bg']); ?>; border-color: <?php esc_attr_e($style['bg']); ?>;" href="#" title="<?php printf(__('Print using %s', 'deliveryfrom'), esc_attr($method['name'])); ?>" data-order-id="{{order_id}}" data-method="<?php echo esc_attr($method['service']); ?>" data-instance="<?php echo esc_attr($method['ID']); ?>">
-                <img class="deliveryfrom_action_icon" src="<?php esc_attr_e($style['icon']); ?>">
+            <a class="button deliveryfrom_wc_action deliveryfrom_print" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>;" href="#" title="<?php printf(__('Print using %s', 'deliveryfrom'), esc_attr($method['name'])); ?>" data-order-id="{{order_id}}" data-method="<?php echo esc_attr($method['service']); ?>" data-instance="<?php echo esc_attr($method['ID']); ?>">
+                <img class="deliveryfrom_action_icon" src="<?php echo esc_attr($style['icon']); ?>">
                 <?php if(isset($style['country']) && !empty($style['country'])): ?>
-                    <img class="deliveryfrom_country_icon" src="<?php esc_attr_e(DELIVERYFROM_URI . 'admin/images/' . $style['country'] . '.png'); ?>">
+                    <img class="deliveryfrom_country_icon" src="<?php echo esc_attr(DELIVERYFROM_URI . 'admin/images/' . $style['country'] . '.png'); ?>">
                 <?php endif; ?>
             </a>
         <?php
@@ -363,18 +363,18 @@ class Deliveryfrom_Admin {
 
         $style = apply_filters('deliveryfrom_action_print_style_' . $service, array('bg' => '#fff', 'icon' => '', 'color' => '#000', 'country' => ''), $instance);
         ?>
-            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php esc_attr_e($style['bg']); ?>; border-color: <?php esc_attr_e($style['bg']); ?>; color: <?php esc_attr_e($style['color']); ?>;" href="<?php echo esc_url(admin_url('post.php?action=deliveryfrom_viewlabel&post=')) . '{{order_id}}'; ?>" title="<?php _e('Print existing label', 'deliveryfrom'); ?>" data-order-id="{{order_id}}">
+            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url(admin_url('post.php?action=deliveryfrom_viewlabel&post=')) . '{{order_id}}'; ?>" title="<?php _e('Print existing label', 'deliveryfrom'); ?>" data-order-id="{{order_id}}">
                 <span class="dashicons dashicons-printer"></span>
             </a>
             <?php 
             $tracking_link = apply_filters('deliveryfrom_tracking_url_' . $service, false, $order_id, $instance);
             if($tracking_link):
             ?>
-            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php esc_attr_e($style['bg']); ?>; border-color: <?php esc_attr_e($style['bg']); ?>; color: <?php esc_attr_e($style['color']); ?>;" href="<?php echo esc_url($tracking_link); ?>" title="<?php _e('Open tracking link', 'deliveryfrom'); ?>">
+            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url($tracking_link); ?>" title="<?php _e('Open tracking link', 'deliveryfrom'); ?>">
                 <span class="dashicons dashicons-location-alt"></span>
             </a>
             <?php endif; ?>
-            <a class="button deliveryfrom_wc_action deliveryfrom_cancel_label" style="background-color: <?php esc_attr_e($style['bg']); ?>; border-color: <?php esc_attr_e($style['bg']); ?>; color: <?php esc_attr_e($style['color']); ?>;" href="#" title="<?php _e('Cancel label', 'deliveryfrom'); ?>" data-order-id="{{order_id}}">
+            <a class="button deliveryfrom_wc_action deliveryfrom_cancel_label" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="#" title="<?php _e('Cancel label', 'deliveryfrom'); ?>" data-order-id="{{order_id}}">
                 <span class="dashicons dashicons-no"></span>
             </a>
         <?php
@@ -1003,21 +1003,21 @@ class Deliveryfrom_Admin {
         ?>
         <tr>
             <th scope="row" class="deliveryfrom_form_label">
-                <label for="<?php esc_attr_e($prefix.$field['field']); ?>"><?php esc_html_e($field['label']); ?></label>
+                <label for="<?php echo esc_attr($prefix.$field['field']); ?>"><?php esc_html_e($field['label']); ?></label>
             </th>
             <td class="deliveryfrom_form_input">
                 <?php if($field['type'] == 'textarea'): ?>
-                    <textarea id="<?php esc_attr_e($prefix.$field['field']); ?>" name="<?php esc_attr_e($prefix.$field['field']); ?>"><?php esc_attr_e($field['value']); ?></textarea>
+                    <textarea id="<?php echo esc_attr($prefix.$field['field']); ?>" name="<?php echo esc_attr($prefix.$field['field']); ?>"><?php echo esc_attr($field['value']); ?></textarea>
                 <?php elseif($field['type'] == 'date'): ?>
-                    <input id="<?php esc_attr_e($prefix.$field['field']); ?>" name="<?php esc_attr_e($prefix.$field['field']); ?>" type="text" class="datepicker" value="<?php esc_attr_e($field['value']); ?>">
+                    <input id="<?php echo esc_attr($prefix.$field['field']); ?>" name="<?php echo esc_attr($prefix.$field['field']); ?>" type="text" class="datepicker" value="<?php echo esc_attr($field['value']); ?>">
                 <?php elseif($field['type'] == 'select'): ?>
-                    <select id="<?php esc_attr_e($prefix.$field['field']); ?>" name="<?php esc_attr_e($prefix.$field['field']); ?>">
+                    <select id="<?php echo esc_attr($prefix.$field['field']); ?>" name="<?php echo esc_attr($prefix.$field['field']); ?>">
                         <?php foreach($field['options'] as $key => $option): ?>
-                            <option value="<?php esc_attr_e($key); ?>" <?php selected($key, $field['value'], true); ?>><?php esc_attr_e($option); ?></option>
+                            <option value="<?php echo esc_attr($key); ?>" <?php selected($key, $field['value'], true); ?>><?php echo esc_attr($option); ?></option>
                         <?php endforeach; ?>
                     </select>
                 <?php else: ?>
-                    <input id="<?php esc_attr_e($prefix.$field['field']); ?>" name="<?php esc_attr_e($prefix.$field['field']); ?>" type="text" value="<?php esc_attr_e($field['value']); ?>">
+                    <input id="<?php echo esc_attr($prefix.$field['field']); ?>" name="<?php echo esc_attr($prefix.$field['field']); ?>" type="text" value="<?php echo esc_attr($field['value']); ?>">
                 <?php endif; ?>
             </td>
         </tr>
@@ -1036,7 +1036,7 @@ class Deliveryfrom_Admin {
             <td class="deliveryfrom_form_input">
                 <select id="deliveryfrom_services" name="dfform_services[]" style="" class="wc-enhanced-select" multiple="" tabindex="-1" aria-hidden="true">
                     <?php foreach($services['options'] as $key => $option): ?>
-                        <option value="<?php esc_attr_e($key); ?>" <?php selected(in_array($key, $services['values']), true); ?>><?php esc_attr_e($option); ?></option>
+                        <option value="<?php echo esc_attr($key); ?>" <?php selected(in_array($key, $services['values']), true); ?>><?php echo esc_attr($option); ?></option>
                     <?php endforeach; ?>
                 </select>
             </td>
