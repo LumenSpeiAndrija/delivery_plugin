@@ -398,35 +398,41 @@ class Deliveryfrom_Admin {
 		}
     }
 
-    public function deliveryfrom_settings_save(){
-
+    public function deliveryfrom_settings_save() {
         $section = '';
 
-        if(isset($_GET['section']) && !empty($_GET['section'])){
+        // Sanitize GET parameter
+        if (isset($_GET['section']) && !empty($_GET['section'])) {
             $section = sanitize_text_field($_GET['section']);
         }
 
-        if($section == ''){
-
+        if ($section == '') {
+            // Sanitize and validate POST parameters
             $settings = $this->deliveryfrom_get_settings();
             woocommerce_update_options($settings);
-            $services = isset($_POST['deliveryfrom_services']) ? $_POST['deliveryfrom_services'] : array(); 
-            $services_labels = isset($_POST['deliveryfrom_services_labels']) ? $_POST['deliveryfrom_services_labels'] : array(); 
+
+            $services = isset($_POST['deliveryfrom_services']) ? array_map('sanitize_text_field', $_POST['deliveryfrom_services']) : array();
+            $services_labels = isset($_POST['deliveryfrom_services_labels']) ? array_map('sanitize_text_field', $_POST['deliveryfrom_services_labels']) : array();
+
             $this->save_enabled_services($services, $services_labels);
-        }else{
+        } else {
+            // Further sanitize and validate data for sections
             $method = $this->get_method_for_section($section);
 
-            if(is_array($method) && isset($method['ID']) && isset($method['service']) ){
-                $section = $method['service'];
-                $instance = $method['ID'];
+            if (is_array($method) && isset($method['ID']) && isset($method['service'])) {
+                $section = sanitize_text_field($method['service']);
+                $instance = intval($method['ID']);
             }
 
+            // Apply filters and update options
             $settings = apply_filters('deliveryfrom_settings_fields_' . $section, array(), $instance);
             woocommerce_update_options($settings);
 
-           //do_action('deliveryfrom_settings_save_' . $section, $instance);
+            // Optionally, trigger action hook
+            // do_action('deliveryfrom_settings_save_' . $section, $instance);
         }
     }
+
 
     private function save_enabled_services($services, $labels){
 
@@ -899,7 +905,7 @@ class Deliveryfrom_Admin {
         $post = isset($_POST['post']) ? sanitize_text_field($_POST['post']) : '';
         $method = isset($_POST['method']) ? sanitize_text_field($_POST['method']) : '';
         $instance = isset($_POST['instance']) ? sanitize_text_field($_POST['instance']) : '';
-        $form = isset($_POST['form']) ? stripslashes($_POST['form']) : '';
+        $form = isset($_POST['form']) ? sanitize_textarea_field(stripslashes($_POST['form'])) : '';
         $order = wc_get_order($post);
 
         if($action != 'deliveryfrom_form_print'){
@@ -1054,87 +1060,55 @@ class Deliveryfrom_Admin {
         return $actions;
     }
 
-    public function deliveryfrom_handle_bulk_print(){
-        
+    public function deliveryfrom_handle_bulk_print() {
+        // Sanitize and validate action
         $action = isset($_POST['action']) ? sanitize_text_field($_POST['action']) : '';
+        if ($action !== 'deliveryfrom_bulk_print') {
+            $this->json_error(__('Action is not set', 'deliveryfrom'));
+        }
+
+        // Sanitize method and extract instance
         $method = isset($_POST['method']) ? sanitize_text_field($_POST['method']) : '';
-        $orders = isset($_POST['orders']) ? $_POST['orders'] : array();
-
         $instance = str_replace('deliveryfrom_bulk_', '', $method);
+        $instance = sanitize_text_field($instance);
 
-        $method = $this->delivreyfrom_get_method($instance);
-        
-        if(is_array($method)){
-            $method = $method[0]['service'];
-        }else{
+        // Get method details
+        $method_details = $this->delivreyfrom_get_method($instance);
+        if (is_array($method_details) && !empty($method_details[0]['service'])) {
+            $method = sanitize_text_field($method_details[0]['service']);
+        } else {
             $method = '';
         }
 
-        if($action != 'deliveryfrom_bulk_print'){
-            print_r(
-                json_encode(
-                    array(
-                        'status' => 'err',
-                        'error' => __("Action is not set", "deliveryfrom")
-                    )
-                )
-            );
-            wp_die();
+        if (empty($method)) {
+            $this->json_error(__('Method is not set', 'deliveryfrom'));
         }
 
-        if(empty($method)){
-            print_r(
-                json_encode(
-                    array(
-                        'status' => 'err',
-                        'error' => __("Method is not set", "deliveryfrom")
-                    )
-                )
-            );
-            wp_die();
+        // Sanitize and validate orders array
+        $orders = isset($_POST['orders']) ? array_map('intval', $_POST['orders']) : array();
+        if (empty($orders) || !is_array($orders) || count($orders) < 1) {
+            $this->json_error(__('No orders selected', 'deliveryfrom'));
         }
 
-        if(!is_array($orders)){
-            print_r(
-                json_encode(
-                    array(
-                        'status' => 'err',
-                        'error' => __("No orders selected", "deliveryfrom")
-                    )
-                )
-            );
-            wp_die();
+        if (empty($instance)) {
+            $this->json_error(__('Instance is not set', 'deliveryfrom'));
         }
 
-        if(is_array($orders) && sizeof($orders) < 1){
-            print_r(
-                json_encode(
-                    array(
-                        'status' => 'err',
-                        'error' => __("No orders selected", "deliveryfrom")
-                    )
-                )
-            );
-            wp_die();
-        }
-
-        if(empty($instance)){
-            print_r(
-                json_encode(
-                    array(
-                        'status' => 'err',
-                        'error' => __("Instance is not set", "deliveryfrom")
-                    )
-                )
-            );
-            wp_die();
-        }
-
+        // Apply filter and handle print
         $print = apply_filters('deliveryfrom_bulk_print_' . $method, '', $orders, $instance);
         do_action('deliveryfrom_handle_print', $print, $method, $instance);
 
         wp_die();
     }
+
+    private function json_error($message) {
+        echo json_encode(array(
+            'status' => 'err',
+            'error' => $message
+        ));
+        wp_die();
+    }
+
 
     public function deliveryfrom_cancel_label(){
         $action = isset($_POST['action']) ? sanitize_text_field($_POST['action']) : '';
@@ -1271,7 +1245,7 @@ class Deliveryfrom_Admin {
     public function deliveryfrom_form_save_order(){
         $action = isset($_POST['action']) ? sanitize_text_field($_POST['action']) : '';
         $post = isset($_POST['post']) ? sanitize_text_field($_POST['post']) : '';
-        $form = isset($_POST['form']) ? stripslashes($_POST['form']) : '';
+        $form = isset($_POST['form']) ? sanitize_textarea_field(stripslashes($_POST['form'])) : '';
 
         $order = wc_get_order($post);
         if(!$order){
