@@ -6,15 +6,15 @@
 <table class="deliveryfrom_services wc_input_table widefat">
     <thead>
         <tr>
-            <th width="20%"><?php _e('Service', 'deliveryfrom'); ?></th>
-            <th><?php _e('Label (for admin)', 'deliveryfrom'); ?></th>
+            <th width="20%"><?php esc_html_e('Service', 'deliveryfrom'); ?></th>
+            <th><?php esc_html_e('Label (for admin)', 'deliveryfrom'); ?></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
             <th colspan="9">
-                <button type="button" id="deliveryfrom_add_service" href="#"  class="button plus insert"><?php _e('Add service', 'deliveryfrom'); ?></button>
-                <button type="button" id="deliveryfrom_delete_service" href="#" class="button minus"><?php _e('Remove selected services', 'deliveryfrom'); ?></button>
+                <button type="button" id="deliveryfrom_add_service" href="#"  class="button plus insert"><?php esc_html_e('Add service', 'deliveryfrom'); ?></button>
+                <button type="button" id="deliveryfrom_delete_service" href="#" class="button minus"><?php esc_html_e('Remove selected services', 'deliveryfrom'); ?></button>
             </th>
         </tr>
     </tfoot>

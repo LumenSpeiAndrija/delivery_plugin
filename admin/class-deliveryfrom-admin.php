@@ -324,7 +324,7 @@ class Deliveryfrom_Admin {
         $instance = $order->get_meta('_deliveryfrom_instance', true);
         $style = apply_filters('deliveryfrom_action_print_style_' . $service, array('bg' => '#fff', 'icon' => '', 'color' => '#000', 'country' => ''), $instance);
         ?>
-            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url(admin_url('post.php?action=deliveryfrom_viewlabel&post=' . $order_id)); ?>" title="<?php _e('Print existing label', 'deliveryfrom'); ?>" data-order-id="<?php echo esc_attr($order_id); ?>">
+            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url(admin_url('post.php?action=deliveryfrom_viewlabel&post=' . $order_id)); ?>" title="<?php esc_html_e('Print existing label', 'deliveryfrom'); ?>" data-order-id="<?php echo esc_attr($order_id); ?>">
                 <span class="dashicons dashicons-printer"></span>
             </a>
 
@@ -1231,7 +1231,7 @@ class Deliveryfrom_Admin {
 
         }
 
-        echo json_encode(array('status' => 'ok', 'removed' => $post, 'buttons' => $html));
+        echo json_encode(array('status' => 'ok', 'removed' => esc_js($post), 'buttons' => wp_kses_post($html)));
     }
 
     public function deliveryfrom_register_emails( $emails ){
