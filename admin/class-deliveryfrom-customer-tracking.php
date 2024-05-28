@@ -8,9 +8,9 @@ if ( ! class_exists( 'WC_Email' ) ) {
 }
 
 /**
- * Class WC_DeliveryFrom_Customer_Tracking_Email
+ * Class DeliveryFrom_Customer_Tracking_Email
  */
-class WC_DeliveryFrom_Customer_Tracking_Email extends WC_Email {
+class DeliveryFrom_Customer_Tracking_Email extends WC_Email {
 
 	/**
 	 * Create an instance of the class.
@@ -20,7 +20,7 @@ class WC_DeliveryFrom_Customer_Tracking_Email extends WC_Email {
 	 */
 	function __construct() {
         // Email slug we can use to filter other data.
-		$this->id          = 'wc_deliveryfrom_customer_tracking';
+		$this->id          = 'deliveryfrom_customer_tracking';
         $this->enabled          = 'no';
 		$this->title       = __( 'Tracking order for customer', 'deliveryfrom' );
 		$this->description = __( 'Email sent to customer once tracking number is generated.', 'deliveryfrom' );

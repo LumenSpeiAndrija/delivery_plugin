@@ -166,8 +166,9 @@ class Deliveryfrom_Admin {
             echo '<li><a href="' . admin_url( 'admin.php?page=wc-settings&tab=' . $tab_id . '&section=' . sanitize_title( $id ) ) . '" class="' . ( $current_section == $id ? 'current' : '' ) . '">' . $label . '</a> | </li>';
         }
 
-        echo '<li><a href="https://deliveryfrom.shop" target="_blank">' . __('Support', 'deliveryfrom') . '</a> | </li>';
-        echo '<li><a href="https://deliveryfrom.shop" target="_blank">' . __('Email us', 'deliveryfrom') . '</a></li>';
+        echo '<li><a href="https://deliveryfrom.shop" target="_blank">' . esc_html__('Support', 'deliveryfrom') . '</a> | </li>';
+        echo '<li><a href="https://deliveryfrom.shop" target="_blank">' . esc_html__('Email us', 'deliveryfrom') . '</a></li>';
+
 
         echo '</ul><br class="clear" />';
     }
@@ -299,7 +300,7 @@ class Deliveryfrom_Admin {
                 $style = apply_filters('deliveryfrom_action_print_style_' . $method['service'], array('bg' => '#fff', 'icon' => '', 'color' => '#000', 'country' => ''), $method['ID']);
                 if(class_exists($method['service'])):
                 ?>
-                    <a class="button deliveryfrom_wc_action deliveryfrom_print" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>;" href="#" title="<?php printf(__('Print using %s', 'deliveryfrom'), esc_attr($method['name'])); ?>" data-order-id="<?php echo esc_attr($order_id); ?>" data-method="<?php echo esc_attr($method['service']); ?>" data-instance="<?php echo esc_attr($method['ID']); ?>">
+                    <a class="button deliveryfrom_wc_action deliveryfrom_print" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>;" href="#" title="<?php echo esc_attr(sprintf(__('Print using %s', 'deliveryfrom'), $method['name'])); ?>" data-order-id="<?php echo esc_attr($order_id); ?>" data-method="<?php echo esc_attr($method['service']); ?>" data-instance="<?php echo esc_attr($method['ID']); ?>">
                         <img class="deliveryfrom_action_icon" src="<?php echo esc_attr($style['icon']); ?>">
                         <?php if(isset($style['country']) && !empty($style['country'])): ?>
                             <img class="deliveryfrom_country_icon" src="<?php echo esc_attr(DELIVERYFROM_URI . 'admin/images/' . $style['country'] . '.png'); ?>">
@@ -332,7 +333,8 @@ class Deliveryfrom_Admin {
             $tracking_link = apply_filters('deliveryfrom_tracking_url_' . $service, false, $order_id, $instance);
             if($tracking_link):
             ?>
-            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url($tracking_link); ?>" title="<?php _e('Open tracking link', 'deliveryfrom'); ?>">
+            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url($tracking_link); ?>" title="<?php echo esc_attr__('Open tracking link', 'deliveryfrom'); ?>">
+
                 <span class="dashicons dashicons-location-alt"></span>
             </a>
             <?php endif; ?>
@@ -349,9 +351,9 @@ class Deliveryfrom_Admin {
         foreach($methods as $method):
             $style = apply_filters('deliveryfrom_action_print_style_' . $method['service'], array('bg' => '#fff', 'icon' => '', 'color' => '#000', 'country' => ''), $method['ID']);
         ?>
-            <a class="button deliveryfrom_wc_action deliveryfrom_print" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>;" href="#" title="<?php printf(__('Print using %s', 'deliveryfrom'), esc_attr($method['name'])); ?>" data-order-id="{{order_id}}" data-method="<?php echo esc_attr($method['service']); ?>" data-instance="<?php echo esc_attr($method['ID']); ?>">
+            <a class="button deliveryfrom_wc_action deliveryfrom_print" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>;" href="#" title="<?php echo esc_attr(sprintf(__('Print using %s', 'deliveryfrom'), $method['name'])); ?>" data-order-id="{{order_id}}" data-method="<?php echo esc_attr($method['service']); ?>" data-instance="<?php echo esc_attr($method['ID']); ?>">
                 <img class="deliveryfrom_action_icon" src="<?php echo esc_attr($style['icon']); ?>">
-                <?php if(isset($style['country']) && !empty($style['country'])): ?>
+                <?php if (isset($style['country']) && !empty($style['country'])): ?>
                     <img class="deliveryfrom_country_icon" src="<?php echo esc_attr(DELIVERYFROM_URI . 'admin/images/' . $style['country'] . '.png'); ?>">
                 <?php endif; ?>
             </a>
@@ -370,7 +372,7 @@ class Deliveryfrom_Admin {
             $tracking_link = apply_filters('deliveryfrom_tracking_url_' . $service, false, $order_id, $instance);
             if($tracking_link):
             ?>
-            <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url($tracking_link); ?>" title="<?php _e('Open tracking link', 'deliveryfrom'); ?>">
+                <a target="_blank" class="button deliveryfrom_wc_action" style="background-color: <?php echo esc_attr($style['bg']); ?>; border-color: <?php echo esc_attr($style['bg']); ?>; color: <?php echo esc_attr($style['color']); ?>;" href="<?php echo esc_url($tracking_link); ?>" title="<?php echo esc_attr__('Open tracking link', 'deliveryfrom'); ?>"><?php echo esc_html__('Open tracking link', 'deliveryfrom'); ?>>
                 <span class="dashicons dashicons-location-alt"></span>
             </a>
             <?php endif; ?>
@@ -686,9 +688,15 @@ class Deliveryfrom_Admin {
                 </table>
             </form>
             <div class="df_form_options">
-                <button class="button button-primary deliveryfrom_form_print" data-order-id="<?php echo esc_attr($order_id); ?>" data-method="<?php echo esc_attr($method); ?>" data-instance="<?php echo esc_attr($instance); ?>"><?php _e('Print', 'deliveryfrom'); ?></button>
-                <button class="button deliveryfrom_form_save"><?php _e('Save', 'deliveryfrom'); ?></button>
-                <button class="button df-blockui-close"><?php _e('Close', 'deliveryfrom'); ?></button>
+                <button class="button button-primary deliveryfrom_form_print" data-order-id="<?php echo esc_attr($order_id); ?>" data-method="<?php echo esc_attr($method); ?>" data-instance="<?php echo esc_attr($instance); ?>">
+                    <?php echo esc_html__('Print', 'deliveryfrom'); ?>
+                </button>
+                <button class="button deliveryfrom_form_save">
+                    <?php echo esc_html__('Save', 'deliveryfrom'); ?>
+                </button>
+                <button class="button df-blockui-close">
+                    <?php echo esc_html__('Close', 'deliveryfrom'); ?>
+                </button>
             </div>
         </div>
         <?php
@@ -984,8 +992,8 @@ class Deliveryfrom_Admin {
         }
         
         if( !empty($order->get_meta('_deliveryfrom_tracking_number')) ){
-            // Get the WC_DeliveryFrom_Customer_Tracking_Email object
-            $email_tracking_number = WC()->mailer()->get_emails()['WC_DeliveryFrom_Customer_Tracking_Email'];
+            // Get the DeliveryFrom_Customer_Tracking_Email object
+            $email_tracking_number = WC()->mailer()->get_emails()['DeliveryFrom_Customer_Tracking_Email'];
 
             // Sending the order email tracking notification for an $order_id (order ID)
             $email_tracking_number->trigger( $post );
@@ -1235,9 +1243,9 @@ class Deliveryfrom_Admin {
     }
 
     public function deliveryfrom_register_emails( $emails ){
-        require_once 'class-wc-deliveryfrom-customer-tracking.php';
+        require_once 'class-deliveryfrom-customer-tracking.php';
 
-		$emails['WC_DeliveryFrom_Customer_Tracking_Email'] = new WC_DeliveryFrom_Customer_Tracking_Email();
+		$emails['DeliveryFrom_Customer_Tracking_Email'] = new DeliveryFrom_Customer_Tracking_Email();
 
 		return $emails;
     }
