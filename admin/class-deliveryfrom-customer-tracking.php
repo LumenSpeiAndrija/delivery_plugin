@@ -31,8 +31,8 @@ class DeliveryFrom_Customer_Tracking_Email extends WC_Email {
 		$this->subject     = sprintf( _x( '[%s] Order tracking', 'default email subject for order tracking emails sent to the customer', 'deliveryfrom' ), '{blogname}' );
     
         // Template paths.
-		$this->template_html  = 'emails/wc-deliveryfrom-tracking.php';
-		$this->template_plain = 'emails/plain/wc-deliveryfrom-tracking.php';
+		$this->template_html  = 'emails/deliveryfrom-tracking.php';
+		$this->template_plain = 'emails/plain/deliveryfrom-tracking.php';
 		$this->template_base  = DELIVERYFROM_DIR . 'templates/';
 
 		parent::__construct();

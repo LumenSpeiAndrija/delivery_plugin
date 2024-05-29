@@ -435,115 +435,118 @@ class Deliveryfrom_Admin {
         }
     }
 
-
-    private function save_enabled_services($services, $labels){
-
+    private function save_enabled_services($services, $labels) {
         global $wpdb;
 
-        if(!$this->maybe_create_table("{$wpdb->prefix}wcdf_services", "CREATE TABLE {$wpdb->prefix}wcdf_services (`ID` INT NOT NULL AUTO_INCREMENT , `service` VARCHAR(30) NOT NULL , `name` VARCHAR(256) NOT NULL , PRIMARY KEY (`ID`))")){
+        // Ensure the table exists
+        if (!$this->maybe_create_table("{$wpdb->prefix}wcdf_services", "CREATE TABLE {$wpdb->prefix}wcdf_services (`ID` INT NOT NULL AUTO_INCREMENT , `service` VARCHAR(30) NOT NULL , `name` VARCHAR(256) NOT NULL , PRIMARY KEY (`ID`))")) {
             return;
         }
 
         $saving_ids = array_keys($services);
 
+        // Fetch existing IDs
         $existing_ids = $wpdb->get_results("SELECT ID FROM `{$wpdb->prefix}wcdf_services`;", ARRAY_A);
-
-        if(is_array($existing_ids) && sizeof($existing_ids) > 0){
+        if (is_array($existing_ids) && sizeof($existing_ids) > 0) {
             $existing_ids = array_column($existing_ids, 'ID');
-        }else{
+        } else {
             $existing_ids = array();
         }
 
-        //INSERT NEW INFO
-        foreach($services as $key => $service){
-            if(in_array($key, $existing_ids)){
+        // Insert or update services
+        foreach ($services as $key => $service) {
+            if (in_array($key, $existing_ids)) {
                 $wpdb->update(
                     "{$wpdb->prefix}wcdf_services",
                     array(
                         'service' => $service,
                         'name' => $labels[$key]
                     ),
-                    array(
-                        'ID' => $key,
-                    )
+                    array('ID' => $key),
+                    array('%s', '%s'),
+                    array('%d')
                 );
-            }else{
+            } else {
                 $wpdb->insert(
                     "{$wpdb->prefix}wcdf_services",
                     array(
                         'ID' => $key,
                         'service' => $service,
                         'name' => $labels[$key]
-                    )
+                    ),
+                    array('%d', '%s', '%s')
                 );
             }
         }
 
-        //REMOVE REMOVED
-        if(is_array($saving_ids)){
-            $save = implode(', ', $saving_ids);
+        // Remove removed services
+        if (is_array($saving_ids)) {
+            $placeholders = implode(', ', array_fill(0, count($saving_ids), '%d'));
 
-            if(sizeof($saving_ids) > 0){
-                $to_remove = $wpdb->get_results("SELECT ID FROM `{$wpdb->prefix}wcdf_services` WHERE ID NOT IN ({$save});", ARRAY_A);
-            }else{
+            if (sizeof($saving_ids) > 0) {
+                $query = $wpdb->prepare("SELECT ID FROM `{$wpdb->prefix}wcdf_services` WHERE ID NOT IN ($placeholders);", $saving_ids);
+                $to_remove = $wpdb->get_results($query, ARRAY_A);
+            } else {
                 $to_remove = $wpdb->get_results("SELECT ID FROM `{$wpdb->prefix}wcdf_services`;", ARRAY_A);
             }
-            
-            foreach($to_remove as $remove){
-                $wpdb->query("DELETE FROM `{$wpdb->options}` WHERE option_name LIKE 'deliveryfrom_{$remove['ID']}%';");
+
+            foreach ($to_remove as $remove) {
+                $query = $wpdb->prepare("DELETE FROM `{$wpdb->options}` WHERE option_name LIKE %s;", 'deliveryfrom_' . $remove['ID'] . '%');
+                $wpdb->query($query);
             }
 
-            if(sizeof($saving_ids) > 0){
-                $wpdb->query("DELETE FROM `{$wpdb->prefix}wcdf_services` WHERE ID NOT IN ({$save});");
-            }else{
+            if (sizeof($saving_ids) > 0) {
+                $query = $wpdb->prepare("DELETE FROM `{$wpdb->prefix}wcdf_services` WHERE ID NOT IN ($placeholders);", $saving_ids);
+                $wpdb->query($query);
+            } else {
                 $wpdb->query("DELETE FROM `{$wpdb->prefix}wcdf_services`;");
             }
-            
         }
-        
     }
 
-    private function maybe_create_table( $table_name, $create_ddl ) {
+
+    private function maybe_create_table($table_name, $create_ddl) {
         global $wpdb;
-    
-        $query = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
-    
-        if ( $wpdb->get_var( $query ) === $table_name ) {
+
+        $query = $wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table_name));
+
+        if ($wpdb->get_var($query) === $table_name) {
             return true;
         }
-    
+
         // Didn't find it, so try to create it.
-        $wpdb->query( $create_ddl );
-    
+        $wpdb->query($create_ddl);
+
         // We cannot directly tell that whether this succeeded!
-        if ( $wpdb->get_var( $query ) === $table_name ) {
+        if ($wpdb->get_var($query) === $table_name) {
             return true;
         }
-    
+
         return false;
     }
 
     private function delivreyfrom_get_enabled_methods() {
         global $wpdb;
 
-        if(!$this->maybe_create_table("{$wpdb->prefix}wcdf_services", "CREATE TABLE {$wpdb->prefix}wcdf_services (`ID` INT NOT NULL AUTO_INCREMENT , `service` VARCHAR(30) NOT NULL , `name` VARCHAR(256) NOT NULL , PRIMARY KEY (`ID`))")){
+        if (!$this->maybe_create_table("{$wpdb->prefix}wcdf_services", "CREATE TABLE {$wpdb->prefix}wcdf_services (`ID` INT NOT NULL AUTO_INCREMENT , `service` VARCHAR(30) NOT NULL , `name` VARCHAR(256) NOT NULL , PRIMARY KEY (`ID`))")) {
             return;
         }
-            
-        $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}wcdf_services ORDER BY ID ASC", ARRAY_A);
-    
+
+        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}wcdf_services ORDER BY ID ASC", ARRAY_A);
+
         return $results;
     }
-
     private function delivreyfrom_get_method($id) {
         global $wpdb;
-    
-        $results = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}wcdf_services WHERE ID = {$id} LIMIT 1" , ARRAY_A);
-    
+
+        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}wcdf_services WHERE ID = %d LIMIT 1;", $id);
+        $results = $wpdb->get_results($query, ARRAY_A);
+
         return $results;
     }
 
-    public function deliveryfrom_add_method(){
+
+    public function deliveryfrom_add_method() {
         $available_services = array();
         $available_services = apply_filters('deliveryfrom_available_services', $available_services); //Accepts pairs of class name for value and label for user display
 
@@ -554,15 +557,16 @@ class Deliveryfrom_Admin {
         wp_die();
     }
 
-    private function deliveryfrom_get_next_method_id(){
+    private function deliveryfrom_get_next_method_id() {
         global $wpdb;
 
-        $new_id = $wpdb->get_var( "SELECT ID FROM `{$wpdb->prefix}wcdf_services` ORDER BY ID DESC LIMIT 1;" );
+        $query = "SELECT ID FROM `{$wpdb->prefix}wcdf_services` ORDER BY ID DESC LIMIT 1;";
+        $new_id = $wpdb->get_var($query);
 
         return intval($new_id) + 1;
     }
 
-    private function get_method_for_section($section){
+    private function get_method_for_section($section) {
         global $wpdb;
 
         $prefix = 'deliveryfrom_';
@@ -572,14 +576,14 @@ class Deliveryfrom_Admin {
             $id = substr($section, strlen($prefix));
         }
 
-        if(empty($id)){
+        if (empty($id)) {
             return '';
         }
 
-        $service = $wpdb->get_var( "SELECT service FROM `{$wpdb->prefix}wcdf_services` WHERE ID = $id LIMIT 1;" );
+        $query = $wpdb->prepare("SELECT service FROM `{$wpdb->prefix}wcdf_services` WHERE ID = %d LIMIT 1;", $id);
+        $service = $wpdb->get_var($query);
 
         return array('ID' => $id, 'service' => $service);
-
     }
 
     public function deliveryfrom_handle_print_button(){

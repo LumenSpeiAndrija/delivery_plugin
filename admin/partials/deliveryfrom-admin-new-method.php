@@ -1,3 +1,9 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+?>
+
 <tr>
     <td>
         <select name="deliveryfrom_services[{{newid}}]" data-attribute="deliveryfrom_service" autocomplete="off">
