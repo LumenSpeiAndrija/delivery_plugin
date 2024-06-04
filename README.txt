@@ -59,4 +59,4 @@ There are no special requirements for the plugin, everything you need to know ab
 == 3rd party services ==
 
 1. Google Maps API - We use google maps API for fetching the locations of pickup services for the companies customer selected as their delivery service
-2. License API - License API is our API that handles the licensing of the delivery plugin add-ons based on the customer choices if they want other services and their domains
+2. License API - License API is our API that handles the licensing of the delivery plugin add-ons based on the customer choices if they want other services and other domains
